@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  mariadb:
+    image: mariadb:latest
+    # container_name: mariadb-container
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=practicaud3
+      - MYSQL_USER=alumno
+      - MYSQL_PASSWORD=alumno
+    ports:
+      - "3307:3306"  # Mapeamos 3307 en el host hacia 3306 en el contenedor
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
