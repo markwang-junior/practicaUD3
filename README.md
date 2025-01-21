@@ -1,66 +1,131 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Práctica UD3: Base de Datos Relacionales con Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Descripción del problema
 
-## About Laravel
+Supongamos que la Escuela Técnica “San Vicente” necesita un sistema para gestionar la información de profesores, alumnos y asignaturas que se imparten. Actualmente, manejan muchos datos en hojas de cálculo y les gustaría centralizarlo. El objetivo es crear un proyecto en Laravel que permita realizar operaciones CRUD sobre profesores, alumnos y asignaturas, así como registrar qué alumnos están matriculados en qué asignaturas y qué profesores las imparten. Además, el sistema debe poder mostrar estadísticas básicas, como cuántos alumnos hay por profesor o cuántos están matriculados en una asignatura concreta.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Para lograrlo, se crearán tablas para profesores, alumnos y asignaturas. Cada profesor podrá impartir varias asignaturas y cada asignatura podrá ser impartida por un solo profesor (en este ejemplo). Los alumnos podrán matricularse en varias asignaturas, y se espera que se puedan añadir, eliminar o modificar registros de forma sencilla a través de una API REST. De esta forma, el sistema ofrecerá una plataforma centralizada que mejorará la eficiencia en la gestión de la escuela y optimizará la forma de consultar y actualizar la información académica.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 2. Modelo E-R
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+El siguiente diagrama representa el Modelo Entidad-Relación (E-R) del sistema. Cada tabla incluye su clave primaria (PK) y las correspondientes claves foráneas (FK). Además, se muestran las cardinalidades.
 
-## Learning Laravel
+![Diagrama E-R](docs/diagramaER.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Profesores**: Contiene la información de cada profesor (id, nombre, email).
+- **Asignaturas**: Contiene la información de cada asignatura (id, nombre) y la FK del profesor que la imparte.
+- **Alumnos**: Contiene la información de cada alumno (id, nombre, email).
+- **Matriculaciones**: Tabla intermedia para la relación N..M entre Alumnos y Asignaturas (con id, alumno_id, asignatura_id y fecha_matricula).
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 3. Implementación
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 3.1 Estructura y Migraciones
 
-## Laravel Sponsors
+El proyecto está desarrollado en **Laravel 10**. Para las tablas, se han definido las siguientes migraciones:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Profesores**  
+2. **Asignaturas** (relacionada 1..N con Profesores)  
+3. **Alumnos**  
+4. **Matriculaciones** (relaciona N..M Alumnos con Asignaturas)
 
-### Premium Partners
+Cada migración define las columnas y sus tipos de datos, así como las restricciones de integridad (PK, FK, etc.).  
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Para crearlas en tu base de datos, ejecuta:
 
-## Contributing
+```bash
+php artisan migrate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3.2 Modelos (Eloquent)
+Se han creado modelos Eloquent para cada tabla:
 
-## Code of Conduct
+Profesor (relación hasMany con Asignatura)
+Asignatura (relación belongsTo con Profesor y belongsToMany con Alumno)
+Alumno (relación belongsToMany con Asignatura)
+(Opcional) Matriculacion si necesitas lógica específica en la tabla pivot, pero por defecto se maneja con la relación belongsToMany indicando la tabla pivot.
+3.3 Seeders
+Para cargar datos de prueba, se han creado varios seeders:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+ProfesoresSeeder
+AlumnosSeeder
+AsignaturasSeeder
+MatriculacionesSeeder
+Todos estos seeders están registrados en DatabaseSeeder.php, de modo que se pueden ejecutar con:
 
-## Security Vulnerabilities
+php artisan db:seed
+o bien
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+php artisan migrate:fresh --seed
+para realizar las migraciones y poblar la base de datos automáticamente.
 
-## License
+3.4 Controladores y Rutas (API)
+En routes/api.php se registran todas las rutas relacionadas con profesores, alumnos y asignaturas. Se han creado controladores tipo API (ProfesorController, AlumnoController, AsignaturaController) para manejar las operaciones CRUD (Create, Read, Update, Delete).
+Por ejemplo, para Profesores:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+GET /api/profesores (index)
+POST /api/profesores (store)
+GET /api/profesores/{id} (show)
+PUT /api/profesores/{id} (update)
+DELETE /api/profesores/{id} (destroy)
+Un patrón similar se ha aplicado a Alumnos y Asignaturas, sumando más de 10 endpoints. Cada método incluye validaciones para asegurar la coherencia de datos.
+
+3.5 Pruebas en Postman 
+Se ha creado una colección en Postman con ejemplos de llamadas a cada endpoint. Dicha colección se puede encontrar en la raíz del proyecto con el nombre postman_collection.json. Para importarla en tu Postman, basta con ir a “Import” y seleccionar dicho archivo.
+
+4. Way of Working (WoW)
+A continuación, se describen los pasos necesarios para tener la aplicación funcionando en un entorno limpio:
+
+Requisitos
+
+PHP >= 8.0
+Composer >= 2.0
+Docker Desktop (si se usa contenedor de MariaDB)
+Git
+Clonar el repositorio
+
+
+git clone https://github.com/TU_USUARIO/practicaUD3.git
+cd practicaUD3
+Levantar la base de datos (opcional con Docker)
+
+Si dispones de un docker-compose.yml para MariaDB, ejecuta:
+
+docker-compose up -d
+Asegúrate de configurar tu .env para apuntar a DB_HOST=127.0.0.1 y DB_PORT=3306 (o el que hayas mapeado).
+Instalar dependencias de Laravel
+
+
+composer install
+Copiar el archivo de ejemplo .env
+
+Haz una copia de .env.example a .env
+Configura las credenciales de tu base de datos (DB_DATABASE, DB_USERNAME, DB_PASSWORD).
+Generar la APP_KEY
+
+php artisan key:generate
+Ejecutar migraciones y seeders
+
+php artisan migrate --seed
+Esto creará todas las tablas y poblará datos de ejemplo.
+
+Levantar el servidor local
+
+php artisan serve
+Normalmente quedará accesible en http://127.0.0.1:8000.
+
+Probar endpoints
+
+Para probar el listado de profesores:
+arduino
+
+GET http://127.0.0.1:8000/api/profesores
+Para crear un nuevo profesor:
+javascript
+
+POST http://127.0.0.1:8000/api/profesores
+Body (JSON):
+{
+  "nombre": "Juan Test",
+  "email": "juan.test@example.com"
+}
+Y así con el resto de rutas para alumnos y asignaturas.
+Si sigues estos pasos, deberías poder utilizar y probar la aplicación sin problemas.
