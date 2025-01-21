@@ -42,6 +42,7 @@ Profesor (relación hasMany con Asignatura)
 Asignatura (relación belongsTo con Profesor y belongsToMany con Alumno)
 Alumno (relación belongsToMany con Asignatura)
 (Opcional) Matriculacion si necesitas lógica específica en la tabla pivot, pero por defecto se maneja con la relación belongsToMany indicando la tabla pivot.
+
 3.3 Seeders
 Para cargar datos de prueba, se han creado varios seeders:
 
