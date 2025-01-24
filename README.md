@@ -2,9 +2,19 @@
 
 ## 1. Descripción del problema
 
-Supongamos que la Escuela Técnica “San Vicente” necesita un sistema para gestionar la información de profesores, alumnos y asignaturas que se imparten. Actualmente, manejan muchos datos en hojas de cálculo y les gustaría centralizarlo. El objetivo es crear un proyecto en Laravel que permita realizar operaciones CRUD sobre profesores, alumnos y asignaturas, así como registrar qué alumnos están matriculados en qué asignaturas y qué profesores las imparten. Además, el sistema debe poder mostrar estadísticas básicas, como cuántos alumnos hay por profesor o cuántos están matriculados en una asignatura concreta.
+Una escuela enfrenta problemas en la gestión de su información académica debido a que actualmente utiliza hojas de cálculo para registrar datos de profesores, asignaturas y alumnos. Este método manual es propenso a errores, consume mucho tiempo y dificulta la consulta o actualización de datos.
 
-Para lograrlo, se crearán tablas para profesores, alumnos y asignaturas. Cada profesor podrá impartir varias asignaturas y cada asignatura podrá ser impartida por un solo profesor (en este ejemplo). Los alumnos podrán matricularse en varias asignaturas, y se espera que se puedan añadir, eliminar o modificar registros de forma sencilla a través de una API REST. De esta forma, el sistema ofrecerá una plataforma centralizada que mejorará la eficiencia en la gestión de la escuela y optimizará la forma de consultar y actualizar la información académica.
+Por ello, se propone desarrollar un sistema centralizado en Laravel que permita gestionar eficientemente esta información. El sistema debe incluir las siguientes funcionalidades:
+
+Operaciones CRUD (Crear, Leer, Actualizar y Eliminar) para profesores, asignaturas y alumnos.
+Registrar qué profesor imparte cada asignatura.
+Registrar y consultar las matriculaciones de alumnos en asignaturas.
+Mostrar estadísticas básicas, como:
+Número de alumnos matriculados en cada asignatura.
+Total de alumnos gestionados por cada profesor.
+Cada profesor puede impartir varias asignaturas, pero una asignatura solo puede ser impartida por un profesor. Los alumnos pueden matricularse en varias asignaturas, y cada asignatura puede tener múltiples alumnos matriculados. Este sistema también proporcionará una API REST para facilitar la gestión y el acceso a los datos.
+
+En resumen, esta solución permitirá a la escuela centralizar y organizar su información académica, mejorando la eficiencia, reduciendo errores y facilitando la toma de decisiones.
 
 ## 2. Modelo E-R
 
