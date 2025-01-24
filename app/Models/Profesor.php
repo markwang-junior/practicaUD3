@@ -9,7 +9,7 @@ class Profesor extends Model
 {
     use HasFactory;
 
-    protected $table = 'profesores';  // opcional si el nombre coincide
+    protected $table = 'profesores';  
     protected $fillable = ['nombre', 'email'];
 
     // Relación 1:N con Asignaturas

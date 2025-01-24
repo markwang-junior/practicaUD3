@@ -19,5 +19,11 @@ class Alumno extends Model
                     ->withPivot('fecha_matricula')
                     ->withTimestamps();
     }
+
+    public function perfil()
+{
+    return $this->hasOne(PerfilAlumno::class, 'alumno_id');
+}
+
 }
 

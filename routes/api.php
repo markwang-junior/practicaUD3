@@ -13,8 +13,8 @@ use App\Http\Controllers\AsignaturaController;
 | API Routes
 |--------------------------------------------------------------------------
 |
-| Aquí registras las rutas para tu API. Estas rutas se cargarán dentro
-| del "api" middleware group. Puedes probar cada ruta con Postman.
+|
+| 
 |
 */
 
@@ -39,4 +39,8 @@ Route::post('/asignaturas', [AsignaturaController::class, 'store']);
 Route::put('/asignaturas/{id}', [AsignaturaController::class, 'update']);
 Route::delete('/asignaturas/{id}', [AsignaturaController::class, 'destroy']);
 
-
+//Rutas para cada perfil de alumno
+Route::get('/alumnos/{id}/perfil', [PerfilAlumnoController::class, 'show']);
+Route::post('/alumnos/{id}/perfil', [PerfilAlumnoController::class, 'store']);
+Route::put('/alumnos/{id}/perfil', [PerfilAlumnoController::class, 'update']);
+Route::delete('/alumnos/{id}/perfil', [PerfilAlumnoController::class, 'destroy']);
