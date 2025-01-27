@@ -2,20 +2,23 @@
 
 ## 1. Descripción del problema
 
-Una escuela enfrenta problemas en la gestión de su información académica debido a que actualmente utiliza hojas de cálculo para registrar datos de profesores, asignaturas y alumnos. Este método manual es propenso a errores, consume mucho tiempo y dificulta la consulta o actualización de datos.
+Una escuela enfrenta problemas en la gestión de su información académica, debido a que actualmente utiliza hojas de cálculo para registrar datos de profesores, asignaturas y alumnos. Este método manual es propenso a errores, consume mucho tiempo y dificulta la consulta o actualización de los datos.
 
-Por ello, se propone desarrollar un sistema centralizado en Laravel que permita gestionar eficientemente esta información. El sistema debe incluir las siguientes funcionalidades:
+Para resolver estos inconvenientes, se propone desarrollar un sistema centralizado en Laravel que permita gestionar eficientemente esta información. El sistema debe incluir las siguientes funcionalidades:
 
-Operaciones CRUD (Crear, Leer, Actualizar y Eliminar) para profesores, asignaturas y alumnos.
+Operaciones CRUD para profesores, asignaturas y alumnos.
 Registrar qué profesor imparte cada asignatura.
-Registrar y consultar las matriculaciones de alumnos en asignaturas.
+Registrar y consultar las matriculaciones de alumnos en asignaturas, utilizando una tabla intermedia (matriculaciones) que relacione a los alumnos con las asignaturas en las que se inscriben.
+Gestionar un perfil único para cada alumno, almacenando información adicional como dirección y teléfono. Esta información se mantendrá en la tabla PerfilAlumno, de modo que cada alumno tenga un único registro de perfil.
 Mostrar estadísticas básicas, como:
 Número de alumnos matriculados en cada asignatura.
 Total de alumnos gestionados por cada profesor.
-Cada profesor puede impartir varias asignaturas, pero una asignatura solo puede ser impartida por un profesor. Los alumnos pueden matricularse en varias asignaturas, y cada asignatura puede tener múltiples alumnos matriculados. Este sistema también proporcionará una API REST para facilitar la gestión y el acceso a los datos.
+En cuanto a las relaciones:
 
-En resumen, esta solución permitirá a la escuela centralizar y organizar su información académica, mejorando la eficiencia, reduciendo errores y facilitando la toma de decisiones.
-
+Cada profesor puede impartir varias asignaturas, pero una asignatura solo puede ser impartida por un profesor (relación 1:N).
+Los alumnos pueden matricularse en varias asignaturas, y cada asignatura puede tener múltiples alumnos matriculados (relación N:M), gestionada a través de la tabla intermedia matriculaciones.
+Cada alumno dispone de un perfil (relación 1:1) que almacena su información personal adicional.
+El sistema también proporcionará una API REST para facilitar la gestión y el acceso a los datos desde distintas aplicaciones o clientes. De este modo, la escuela podrá centralizar y organizar su información académica, mejorar la eficiencia, reducir errores y contar con datos más fiables para la toma de decisiones.
 ## 2. Modelo E-R
 
 El siguiente diagrama representa el Modelo Entidad-Relación (E-R) del sistema. Cada tabla incluye su clave primaria (PK) y las correspondientes claves foráneas (FK). Además, se muestran las cardinalidades.
