@@ -7,11 +7,17 @@ Una escuela enfrenta problemas en la gestión de su información académica, deb
 Para resolver estos inconvenientes, se propone desarrollar un sistema centralizado en Laravel que permita gestionar eficientemente esta información. El sistema debe incluir las siguientes funcionalidades:
 
 Operaciones CRUD para profesores, asignaturas y alumnos.
+
 Registrar qué profesor imparte cada asignatura.
+
 Registrar y consultar las matriculaciones de alumnos en asignaturas, utilizando una tabla intermedia (matriculaciones) que relacione a los alumnos con las asignaturas en las que se inscriben.
+
 Gestionar un perfil único para cada alumno, almacenando información adicional como dirección y teléfono. Esta información se mantendrá en la tabla PerfilAlumno, de modo que cada alumno tenga un único registro de perfil.
+
 Mostrar estadísticas básicas, como:
+
 Número de alumnos matriculados en cada asignatura.
+
 Total de alumnos gestionados por cada profesor.
 
 En cuanto a las relaciones:
