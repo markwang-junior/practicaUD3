@@ -73,16 +73,17 @@ El siguiente diagrama representa el Modelo Entidad-Relación (E-R) del sistema. 
 Este modelo centraliza y organiza la información académica, facilitando su consulta, gestión y análisis.
 
 
-## 3. Implementación
+# 3. Implementación
 
-### 3.1 Estructura y Migraciones
+## 3.1 Estructura y Migraciones
 
 El proyecto está desarrollado en **Laravel 10**. Para las tablas, se han definido las siguientes migraciones:
 
 1. **Profesores**  
-2. **Asignaturas** (relacionada 1..N con Profesores)  
+2. **Asignaturas** (relacionada 1:N con Profesores)  
 3. **Alumnos**  
-4. **Matriculaciones** (relaciona N..M Alumnos con Asignaturas)
+4. **PerfilAlumno** (relación 1:1 con Alumnos)  
+5. **Matriculaciones** (tabla intermedia para relacionar N:M entre Alumnos y Asignaturas)
 
 Cada migración define las columnas y sus tipos de datos, así como las restricciones de integridad (PK, FK, etc.).  
 
@@ -91,98 +92,153 @@ Para crearlas en tu base de datos, ejecuta:
 ```bash
 php artisan migrate
 
-3.2 Modelos (Eloquent)
+## 3.2 Modelos (Eloquent)
+
 Se han creado modelos Eloquent para cada tabla:
 
-Profesor (relación hasMany con Asignatura)
-Asignatura (relación belongsTo con Profesor y belongsToMany con Alumno)
-Alumno (relación belongsToMany con Asignatura)
-(Opcional) Matriculacion si necesitas lógica específica en la tabla pivot, pero por defecto se maneja con la relación belongsToMany indicando la tabla pivot.
+- **Profesor**  
+  - Relación `hasMany` con `Asignatura`.
 
-3.3 Seeders
-Para cargar datos de prueba, se han creado varios seeders:
+- **Asignatura**  
+  - Relación `belongsTo` con `Profesor`.  
+  - Relación `belongsToMany` con `Alumno` mediante la tabla pivot `Matriculaciones`.
 
-ProfesoresSeeder
-AlumnosSeeder
-AsignaturasSeeder
-MatriculacionesSeeder
-Todos estos seeders están registrados en DatabaseSeeder.php, de modo que se pueden ejecutar con:
+- **Alumno**  
+  - Relación `hasOne` con `PerfilAlumno`.  
+  - Relación `belongsToMany` con `Asignatura` mediante la tabla pivot `Matriculaciones`.
 
+- **PerfilAlumno**  
+  - Relación `belongsTo` con `Alumno` (relación inversa 1:1).
+
+- **Matriculaciones**  
+  - Tabla pivot que registra la relación N:M entre `Alumnos` y `Asignaturas`.
+
+---
+
+## 3.3 Seeders
+
+Para cargar datos de prueba, se han creado los siguientes seeders:
+
+1. **ProfesoresSeeder**  
+2. **AsignaturasSeeder**  
+3. **AlumnosSeeder**  
+4. **PerfilAlumnoSeeder**  
+5. **MatriculacionesSeeder**
+
+Todos ellos están registrados en el archivo `DatabaseSeeder.php`, de modo que se pueden ejecutar con:
+
+```bash
 php artisan db:seed
+
 o bien
 
 php artisan migrate:fresh --seed
-para realizar las migraciones y poblar la base de datos automáticamente.
-
-3.4 Controladores y Rutas (API)
-En routes/api.php se registran todas las rutas relacionadas con profesores, alumnos y asignaturas. Se han creado controladores tipo API (ProfesorController, AlumnoController, AsignaturaController) para manejar las operaciones CRUD (Create, Read, Update, Delete).
-Por ejemplo, para Profesores:
-
-GET /api/profesores (index)
-POST /api/profesores (store)
-GET /api/profesores/{id} (show)
-PUT /api/profesores/{id} (update)
-DELETE /api/profesores/{id} (destroy)
-Un patrón similar se ha aplicado a Alumnos y Asignaturas, sumando más de 10 endpoints. Cada método incluye validaciones para asegurar la coherencia de datos.
-
-3.5 Pruebas en Postman 
-Se ha creado una colección en Postman con ejemplos de llamadas a cada endpoint. Dicha colección se puede encontrar en la raíz del proyecto con el nombre postman_collection.json. Para importarla en tu Postman, basta con ir a “Import” y seleccionar dicho archivo.
-
-4. Way of Working (WoW)
-A continuación, se describen los pasos necesarios para tener la aplicación funcionando en un entorno limpio:
-
-Requisitos
-
-PHP >= 8.0
-Composer >= 2.0
-Docker Desktop (si se usa contenedor de MariaDB)
-Git
-Clonar el repositorio
 
 
-git clone https://github.com/TU_USUARIO/practicaUD3.git
-cd practicaUD3
-Levantar la base de datos (opcional con Docker)
+## 3.4 Controladores y Rutas (API)
 
-Si dispones de un docker-compose.yml para MariaDB, ejecuta:
+En el archivo `routes/api.php`, se registran todas las rutas relacionadas con profesores, alumnos, asignaturas y perfil de alumno. Se han creado **controladores API** para manejar las operaciones CRUD (*Create, Read, Update, Delete*).
 
+### Ejemplo de Rutas para Profesores:
+- `GET /api/profesores`  
+- `POST /api/profesores`  
+- `GET /api/profesores/{id}`  
+- `PUT /api/profesores/{id}`  
+- `DELETE /api/profesores/{id}`  
+
+Un esquema similar se aplica a las entidades **Alumnos**, **Asignaturas** y **PerfilAlumno** (en este último caso, se maneja la relación 1:1 con la tabla `Alumnos`).
+
+---
+
+## 3.5 Pruebas en Postman
+
+Se ha creado una colección en **Postman** con ejemplos de llamadas a cada endpoint. Puedes importarla para probar todas las rutas:
+
+- **Colección**: `postman_collection.json` (ubicada en la raíz del proyecto).
+
+### Ejemplo de Prueba para Profesores:
+- **Método**: `POST`  
+- **URL**: `http://127.0.0.1:8000/api/profesores`  
+- **Body (JSON)**:
+  ```json
+  {
+    "nombre": "Juan Pérez",
+    "email": "juan.perez@example.com"
+  }
+
+
+## 4. Way of Working (WoW)
+
+### Requisitos del Sistema
+
+- **PHP** >= 8.0  
+- **Composer** >= 2.0  
+- **Base de Datos**: MariaDB o MySQL  
+- **Docker** (opcional para levantar la base de datos)  
+
+---
+
+### Pasos para Configurar y Ejecutar el Proyecto
+
+1. **Clonar el Repositorio**  
+   Clona el repositorio desde GitHub y navega al directorio del proyecto:
+
+   ```bash
+   git clone https://github.com/TU_USUARIO/practicaUD3.git
+   cd practicaUD3
+   ## Configuración del Proyecto
+
+### 1. Levantar la Base de Datos (opcional con Docker)
+
+Si dispones de un archivo `docker-compose.yml` para MariaDB o MySQL, ejecuta el siguiente comando para levantar los servicios:
+
+```bash
 docker-compose up -d
-Asegúrate de configurar tu .env para apuntar a DB_HOST=127.0.0.1 y DB_PORT=3306 (o el que hayas mapeado).
-Instalar dependencias de Laravel
+Asegúrate de configurar tu archivo .env para que apunte correctamente a la base de datos:
+
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nombre_base_datos
+DB_USERNAME=tu_usuario
+DB_PASSWORD=tu_contraseña
+2. Instalar Dependencias
+Ejecuta el siguiente comando para instalar las dependencias del proyecto:
 
 
 composer install
-Copiar el archivo de ejemplo .env
+3. Configurar el Archivo .env
+Haz una copia del archivo .env.example y configúralo con las credenciales de tu base de datos:
 
-Haz una copia de .env.example a .env
-Configura las credenciales de tu base de datos (DB_DATABASE, DB_USERNAME, DB_PASSWORD).
-Generar la APP_KEY
+cp .env.example .env
+Edita el archivo .env según tus necesidades.
+
+4. Generar la APP_KEY
+Genera una clave única para la aplicación utilizando el siguiente comando:
 
 php artisan key:generate
-Ejecutar migraciones y seeders
+5. Ejecutar Migraciones y Seeders
+Crea las tablas y llena la base de datos con datos de ejemplo ejecutando:
 
 php artisan migrate --seed
-Esto creará todas las tablas y poblará datos de ejemplo.
-
-Levantar el servidor local
+6. Levantar el Servidor Local
+Ejecuta el servidor de desarrollo de Laravel:
 
 php artisan serve
-Normalmente quedará accesible en http://127.0.0.1:8000.
+Por defecto, el servidor estará accesible en:
 
-Probar endpoints
+http://127.0.0.1:8000
+7. Probar los Endpoints
+Puedes probar los endpoints del sistema utilizando Postman o cualquier cliente REST. Aquí tienes algunos ejemplos básicos:
 
-Para probar el listado de profesores:
-arduino
+Listar todos los profesores:
 
 GET http://127.0.0.1:8000/api/profesores
-Para crear un nuevo profesor:
-javascript
+Crear un nuevo profesor:
 
 POST http://127.0.0.1:8000/api/profesores
 Body (JSON):
+
 {
-  "nombre": "Juan Test",
-  "email": "juan.test@example.com"
+  "nombre": "Juan Pérez",
+  "email": "juan.perez@example.com"
 }
-Y así con el resto de rutas para alumnos y asignaturas.
-Si sigues estos pasos, deberías poder utilizar y probar la aplicación sin problemas.
