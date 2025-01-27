@@ -37,10 +37,41 @@ El siguiente diagrama representa el Modelo Entidad-Relación (E-R) del sistema. 
 
 ![Diagrama E-R](docs/diagramaER.png)
 
-- **Profesores**: Contiene la información de cada profesor (id, nombre, email).
-- **Asignaturas**: Contiene la información de cada asignatura (id, nombre) y la FK del profesor que la imparte.
-- **Alumnos**: Contiene la información de cada alumno (id, nombre, email).
-- **Matriculaciones**: Tabla intermedia para la relación N..M entre Alumnos y Asignaturas (con id, alumno_id, asignatura_id y fecha_matricula).
+### Descripción de las tablas y relaciones:
+
+- **Profesores**: Contiene la información de cada profesor:
+  - **PK**: `idProfesor`
+  - Atributos: `Nombre`, `Email`
+  - **Relación**: Cada profesor puede impartir varias asignaturas (1:N).
+
+- **Asignaturas**: Contiene la información de cada asignatura:
+  - **PK**: `idAsignatura`
+  - Atributos: `Nombre`, `profesor_id` (FK)
+  - **Relación**: Cada asignatura es impartida por un único profesor.
+
+- **Alumnos**: Contiene la información de cada alumno:
+  - **PK**: `idAlumno`
+  - Atributos: `Nombre`, `Email`
+  - **Relación**: Cada alumno tiene un perfil único (1:1 con la tabla `PerfilAlumno`).
+
+- **PerfilAlumno**: Almacena información adicional de contacto para cada alumno:
+  - **PK y FK**: `alumno_id` (referencia a `idAlumno` en la tabla `Alumnos`)
+  - Atributos: `Dirección`, `Teléfono`
+  - **Relación**: Cada alumno tiene un único perfil, y cada perfil pertenece a un único alumno (1:1).
+
+- **Matriculaciones**: Tabla intermedia que registra la relación N:M entre Alumnos y Asignaturas:
+  - **PK**: `idMatricula`
+  - **FK**: `alumno_id` (referencia a `idAlumno` en la tabla `Alumnos`), `asignatura_id` (referencia a `idAsignatura` en la tabla `Asignaturas`)
+  - Atributos: `fecha_matricula`
+  - **Relación**: Permite registrar las asignaturas en las que se matricula cada alumno y los alumnos inscritos en cada asignatura.
+
+### Relación general:
+- Un **profesor** puede impartir varias **asignaturas** (1:N).
+- Los **alumnos** pueden matricularse en varias **asignaturas**, y cada asignatura puede tener varios alumnos (N:M gestionado por `Matriculaciones`).
+- Cada **alumno** tiene un único **perfil**, que almacena información adicional (1:1 con `PerfilAlumno`).
+
+Este modelo centraliza y organiza la información académica, facilitando su consulta, gestión y análisis.
+
 
 ## 3. Implementación
 
