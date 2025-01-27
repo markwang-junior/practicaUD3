@@ -4,31 +4,32 @@
 
 Una escuela enfrenta problemas en la gestión de su información académica, debido a que actualmente utiliza hojas de cálculo para registrar datos de profesores, asignaturas y alumnos. Este método manual es propenso a errores, consume mucho tiempo y dificulta la consulta o actualización de los datos.
 
-Para resolver estos inconvenientes, se propone desarrollar un sistema centralizado en Laravel que permita gestionar eficientemente esta información. El sistema debe incluir las siguientes funcionalidades:
+### Solución Propuesta
 
-Operaciones CRUD para profesores, asignaturas y alumnos.
+Se propone desarrollar un sistema centralizado en **Laravel** que permita gestionar eficientemente esta información académica. Este sistema incluirá las siguientes funcionalidades:
 
-Registrar qué profesor imparte cada asignatura.
+1. **Operaciones CRUD**:
+   - Gestión de profesores, asignaturas y alumnos.
+   
+2. **Relaciones entre tablas**:
+   - Registrar qué profesor imparte cada asignatura.
+   - Gestionar y consultar las **matriculaciones** de alumnos en asignaturas mediante una **tabla intermedia** (`matriculaciones`), que permitirá relacionar a los alumnos con las asignaturas en las que se inscriben.
 
-Registrar y consultar las matriculaciones de alumnos en asignaturas, utilizando una tabla intermedia (matriculaciones) que relacione a los alumnos con las asignaturas en las que se inscriben.
+3. **Gestión de perfiles de alumnos**:
+   - Cada alumno tendrá un **perfil único**, que almacenará información adicional como dirección y teléfono. Esta información se registrará en la tabla **PerfilAlumno**, que está relacionada de forma 1:1 con la tabla de alumnos.
 
-Gestionar un perfil único para cada alumno, almacenando información adicional como dirección y teléfono. Esta información se mantendrá en la tabla PerfilAlumno, de modo que cada alumno tenga un único registro de perfil.
+4. **Estadísticas básicas**:
+   - Número de alumnos matriculados en cada asignatura.
+   - Total de alumnos gestionados por cada profesor.
 
-Mostrar estadísticas básicas, como:
+5. **API REST**:
+   - Provisión de una API para facilitar la gestión y el acceso a los datos desde distintas aplicaciones o clientes.
 
-Número de alumnos matriculados en cada asignatura.
-
-Total de alumnos gestionados por cada profesor.
-
-En cuanto a las relaciones:
-
-Cada profesor puede impartir varias asignaturas, pero una asignatura solo puede ser impartida por un profesor (relación 1:N).
-
-Los alumnos pueden matricularse en varias asignaturas, y cada asignatura puede tener múltiples alumnos matriculados (relación N:M), gestionada a través de la tabla intermedia matriculaciones.
-
-Cada alumno dispone de un perfil (relación 1:1) que almacena su información personal adicional.
-
-El sistema también proporcionará una API REST para facilitar la gestión y el acceso a los datos desde distintas aplicaciones o clientes. De este modo, la escuela podrá centralizar y organizar su información académica, mejorar la eficiencia, reducir errores y contar con datos más fiables para la toma de decisiones.
+Este sistema permitirá a la escuela:
+- **Centralizar y organizar** su información académica.
+- **Reducir errores** y duplicidades en los datos.
+- **Facilitar la consulta y actualización** de la información.
+- Contar con datos confiables para la **toma de decisiones**.
 
 ## 2. Modelo E-R
 
