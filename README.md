@@ -13,12 +13,17 @@ Gestionar un perfil único para cada alumno, almacenando información adicional 
 Mostrar estadísticas básicas, como:
 Número de alumnos matriculados en cada asignatura.
 Total de alumnos gestionados por cada profesor.
+
 En cuanto a las relaciones:
 
 Cada profesor puede impartir varias asignaturas, pero una asignatura solo puede ser impartida por un profesor (relación 1:N).
+
 Los alumnos pueden matricularse en varias asignaturas, y cada asignatura puede tener múltiples alumnos matriculados (relación N:M), gestionada a través de la tabla intermedia matriculaciones.
+
 Cada alumno dispone de un perfil (relación 1:1) que almacena su información personal adicional.
+
 El sistema también proporcionará una API REST para facilitar la gestión y el acceso a los datos desde distintas aplicaciones o clientes. De este modo, la escuela podrá centralizar y organizar su información académica, mejorar la eficiencia, reducir errores y contar con datos más fiables para la toma de decisiones.
+
 ## 2. Modelo E-R
 
 El siguiente diagrama representa el Modelo Entidad-Relación (E-R) del sistema. Cada tabla incluye su clave primaria (PK) y las correspondientes claves foráneas (FK). Además, se muestran las cardinalidades.
