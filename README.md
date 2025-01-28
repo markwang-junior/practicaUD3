@@ -167,90 +167,154 @@ Se ha creado una colección en **Postman** con ejemplos de llamadas a cada endpo
 
 ## 4. Way of Working (WoW)
 
-### Requisitos del Sistema
-
-- **PHP** >= 8.0  
-- **Composer** >= 2.0  
-- **Base de Datos**: MariaDB o MySQL  
-- **Docker** (opcional para levantar la base de datos)  
+El **Way of Working (WoW)** describe los requisitos tecnológicos necesarios para trabajar en este proyecto y los pasos detallados para configurarlo correctamente en un entorno de desarrollo.
 
 ---
 
-### Pasos para Configurar y Ejecutar el Proyecto
+### 4.1 Requisitos Tecnológicos
 
-1. **Clonar el Repositorio**  
-   Clona el repositorio desde GitHub y navega al directorio del proyecto:
+Para trabajar en este proyecto de Laravel, es necesario contar con el siguiente software instalado en tu sistema:
 
-   ```bash
-   git clone https://github.com/TU_USUARIO/practicaUD3.git
-   cd practicaUD3
-   ## Configuración del Proyecto
+- **PHP** >= 8.0  
+- **Composer** >= 2.0  
+- **MariaDB o MySQL** (para la base de datos)  
+- **Git** (para el control de versiones)  
+- **Postman** (opcional, para probar los endpoints de la API)  
+- **Docker y Docker Compose** (opcional, para levantar la base de datos en un contenedor)  
+- **Laravel 10** (instalado con Composer)  
 
-### 1. Levantar la Base de Datos (opcional con Docker)
+---
 
-Si dispones de un archivo `docker-compose.yml` para MariaDB o MySQL, ejecuta el siguiente comando para levantar los servicios:
+### 4.2 Pasos para Configurar el Entorno y Ejecutar la Aplicación
 
+A continuación, se presentan los pasos detallados para preparar el entorno y tener la aplicación lista para trabajar.
+
+#### **1. Clonar el Repositorio**
+Clona el repositorio del proyecto desde GitHub y navega a su directorio:
+
+git clone https://github.com/TU_USUARIO/practicaUD3.git
+cd practicaUD3
+
+# Configuración del Proyecto Laravel
+
+## Tabla de Contenidos
+- [Requisitos Previos](#requisitos-previos)
+- [Configuración de la Base de Datos](#configuración-de-la-base-de-datos)
+- [Instalación y Configuración](#instalación-y-configuración)
+- [Uso de la API](#uso-de-la-api)
+- [Control de Versiones](#control-de-versiones)
+
+## Requisitos Previos
+- PHP >= 8.0
+- Composer
+- MySQL/MariaDB
+- Docker (opcional)
+
+## Configuración de la Base de Datos
+
+### Opción 1: Usando Docker
+Si prefieres usar Docker para la base de datos, asegúrate de tener un archivo `docker-compose.yml` y ejecuta:
+
+```bash
 docker-compose up -d
-Asegúrate de configurar tu archivo .env para que apunte correctamente a la base de datos:
+```
 
+### Configuración del Archivo .env
+Configura las credenciales de la base de datos en el archivo `.env`:
+
+```env
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=nombre_base_datos
 DB_USERNAME=tu_usuario
 DB_PASSWORD=tu_contraseña
+```
 
-2. Instalar Dependencias
-3. 
-Ejecuta el siguiente comando para instalar las dependencias del proyecto:
+**Nota**: Si no utilizas Docker, asegúrate de crear la base de datos manualmente en MariaDB/MySQL antes de continuar.
 
+## Instalación y Configuración
 
+1. **Instalar Dependencias**
+```bash
 composer install
+```
 
-3. Configurar el Archivo .env
-4. 
-Haz una copia del archivo .env.example y configúralo con las credenciales de tu base de datos:
-
+2. **Configurar el Archivo .env**
+```bash
 cp .env.example .env
+```
+Edita el archivo `.env` con la configuración de tu entorno.
 
-Edita el archivo .env según tus necesidades.
-
-4. Generar la APP_KEY
-5. 
-Genera una clave única para la aplicación utilizando el siguiente comando:
-
+3. **Generar la Clave de la Aplicación**
+```bash
 php artisan key:generate
+```
 
-5. Ejecutar Migraciones y Seeders
-6. 
-Crea las tablas y llena la base de datos con datos de ejemplo ejecutando:
-
+4. **Ejecutar Migraciones y Seeders**
+```bash
 php artisan migrate --seed
+```
 
-6. Levantar el Servidor Local
-7. 
-Ejecuta el servidor de desarrollo de Laravel:
-
+5. **Iniciar el Servidor de Desarrollo**
+```bash
 php artisan serve
+```
+La aplicación estará disponible en: `http://127.0.0.1:8000`
 
-Por defecto, el servidor estará accesible en:
+## Uso de la API
 
-http://127.0.0.1:8000
+### Endpoints Disponibles
 
-7. Probar los Endpoints
-8. 
-Puedes probar los endpoints del sistema utilizando Postman o cualquier cliente REST. Aquí tienes algunos ejemplos básicos:
-
-Listar todos los profesores:
-
+#### Listar Profesores
+```http
 GET http://127.0.0.1:8000/api/profesores
+```
 
-Crear un nuevo profesor:
-
+#### Crear Profesor
+```http
 POST http://127.0.0.1:8000/api/profesores
+```
 
-Body (JSON):
-
+Ejemplo de payload:
+```json
 {
-  "nombre": "Juan Pérez",
-  "email": "juan.perez@example.com"
+    "nombre": "Juan Pérez",
+    "email": "juan.perez@example.com"
 }
+```
+
+## Control de Versiones
+
+### Comandos Git Básicos
+
+Agregar cambios:
+```bash
+git add .
+```
+
+Crear commit:
+```bash
+git commit -m "Mensaje del commit"
+```
+
+Subir cambios:
+```bash
+git push origin master
+```
+
+Actualizar repositorio local:
+```bash
+git pull origin master
+```
+
+## Conclusión
+Siguiendo esta guía de configuración, tendrás el proyecto listo para desarrollo y pruebas. Este flujo de trabajo está diseñado para asegurar que todos los desarrolladores sigan un proceso estructurado para la correcta ejecución del proyecto. 🚀
+
+## Contribución
+Si deseas contribuir al proyecto, por favor:
+1. Haz un fork del repositorio
+2. Crea una nueva rama para tus cambios
+3. Envía un pull request con tus modificaciones
+
+
