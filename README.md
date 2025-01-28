@@ -89,7 +89,6 @@ Cada migración define las columnas y sus tipos de datos, así como las restricc
 
 Para crearlas en tu base de datos, ejecuta:
 
-```bash
 php artisan migrate
 
 ## 3.2 Modelos (Eloquent)
@@ -127,7 +126,6 @@ Para cargar datos de prueba, se han creado los siguientes seeders:
 
 Todos ellos están registrados en el archivo `DatabaseSeeder.php`, de modo que se pueden ejecutar con:
 
-```bash
 php artisan db:seed
 
 o bien
@@ -192,7 +190,6 @@ Se ha creado una colección en **Postman** con ejemplos de llamadas a cada endpo
 
 Si dispones de un archivo `docker-compose.yml` para MariaDB o MySQL, ejecuta el siguiente comando para levantar los servicios:
 
-```bash
 docker-compose up -d
 Asegúrate de configurar tu archivo .env para que apunte correctamente a la base de datos:
 
