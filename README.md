@@ -198,41 +198,56 @@ DB_PORT=3306
 DB_DATABASE=nombre_base_datos
 DB_USERNAME=tu_usuario
 DB_PASSWORD=tu_contraseña
+
 2. Instalar Dependencias
+3. 
 Ejecuta el siguiente comando para instalar las dependencias del proyecto:
 
 
 composer install
+
 3. Configurar el Archivo .env
+4. 
 Haz una copia del archivo .env.example y configúralo con las credenciales de tu base de datos:
 
 cp .env.example .env
+
 Edita el archivo .env según tus necesidades.
 
 4. Generar la APP_KEY
+5. 
 Genera una clave única para la aplicación utilizando el siguiente comando:
 
 php artisan key:generate
+
 5. Ejecutar Migraciones y Seeders
+6. 
 Crea las tablas y llena la base de datos con datos de ejemplo ejecutando:
 
 php artisan migrate --seed
+
 6. Levantar el Servidor Local
+7. 
 Ejecuta el servidor de desarrollo de Laravel:
 
 php artisan serve
+
 Por defecto, el servidor estará accesible en:
 
 http://127.0.0.1:8000
+
 7. Probar los Endpoints
+8. 
 Puedes probar los endpoints del sistema utilizando Postman o cualquier cliente REST. Aquí tienes algunos ejemplos básicos:
 
 Listar todos los profesores:
 
 GET http://127.0.0.1:8000/api/profesores
+
 Crear un nuevo profesor:
 
 POST http://127.0.0.1:8000/api/profesores
+
 Body (JSON):
 
 {
