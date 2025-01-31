@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfesorController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\AsignaturaController;
+use App\Http\Controllers\PerfilAlumnoController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +41,9 @@ Route::post('/asignaturas', [AsignaturaController::class, 'store']);
 Route::put('/asignaturas/{id}', [AsignaturaController::class, 'update']);
 Route::delete('/asignaturas/{id}', [AsignaturaController::class, 'destroy']);
 
+Route::prefix('/perfil-alumno')->group(function () {
+    Route::get('/{id}', [PerfilAlumnoController::class, 'show']); // Obtener un perfil
+    Route::post('/{id}', [PerfilAlumnoController::class, 'store']); // Crear un perfil
+    Route::put('/{id}', [PerfilAlumnoController::class, 'update']); // Actualizar un perfil
+    Route::delete('/{id}', [PerfilAlumnoController::class, 'destroy']); // Eliminar un perfil
+});
