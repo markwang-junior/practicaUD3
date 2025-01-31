@@ -4,12 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-// Si lo deseas, puedes importar explícitamente tus seeders, pero si están 
-// en el mismo namespace Database\Seeders, no es obligatorio.
-// use Database\Seeders\ProfesoresSeeder;
-// use Database\Seeders\AlumnosSeeder;
-// use Database\Seeders\AsignaturasSeeder;
-// use Database\Seeders\MatriculacionesSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
